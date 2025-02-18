@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Currículo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            margin-top:15px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px; /* Limita a largura do formulário */
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        label {
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 90%; /* Responsividade para telas pequenas */
+            }
+
+            header {
+                font-size: 18px; /* Ajusta o título no cabeçalho para telas pequenas */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        Gerador de Currículo
+    </header>
+
+    <div class="container">
+        <h1>Preencha seus dados</h1>
+        <form id="curriculoForm">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" required>
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" required>
+
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" required>
+
+            <label for="experiencia">Experiência Profissional:</label>
+            <textarea id="experiencia" required></textarea>
+
+            <label for="formacao">Formação Acadêmica:</label>
+            <textarea id="formacao" required></textarea>
+
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco">
+
+            <label for="nascimento">Data de Nascimento:</label>
+            <input type="date" id="nascimento">
+
+            <label for="habilidades">Habilidades:</label>
+            <textarea id="habilidades"></textarea>
+
+            <label for="objetivo">Objetivo Profissional:</label>
+            <textarea id="objetivo"></textarea>
+
+            <button type="submit">Gerar Arquivo de Currículo</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('curriculoForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // Evita o envio normal do formulário
+
+            // Coletando os valores dos campos
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const telefone = document.getElementById('telefone').value;
+            const experiencia = document.getElementById('experiencia').value;
+            const formacao = document.getElementById('formacao').value;
+            const endereco = document.getElementById('endereco').value;
+            const nascimento = document.getElementById('nascimento').value;
+            const habilidades = document.getElementById('habilidades').value;
+            const objetivo = document.getElementById('objetivo').value;
+
+            // Gerando o conteúdo do currículo em formato de texto (organizado e personalizado)
+            const curriculoTexto = `
+==================================================
+                    CURRÍCULO
+==================================================
+Nome: ${nome}
+E-mail: ${email}
+Telefone: ${telefone}
+
+Experiência Profissional:
+${experiencia}
+
+Formação Acadêmica:
+${formacao}
+
+Endereço: ${endereco}
+
+Data de Nascimento: ${nascimento}
+
+Habilidades:
+${habilidades}
+
+Objetivo Profissional:
+${objetivo}
+
+==================================================
+            Fim do Currículo
+==================================================
+            `;
+
+            // Criando o arquivo Blob com o conteúdo
+            const blob = new Blob([curriculoTexto], { type: 'text/plain' });
+
+            // Criando o link para o download
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'curriculo.txt';  // Nome do arquivo
+
+            // Forçando o clique no link para iniciar o download
+            a.click();
+
+            // Revogando o URL do Blob após o download
+            setTimeout(() => {
+                URL.revokeObjectURL(a.href);
+            }, 100);
+        });
+    </script>
+
+</body>
+</html>
